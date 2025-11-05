@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{TITLE}}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Clean glass card */
+        .main-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Simple urgent badge */
+        .urgent-badge {
+            display: inline-block;
+            background: #ff4757;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image:hover {
+            transform: scale(1.02);
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 30px 0;
+            font-weight: 300;
+        }
+
+        /* Clean minimal buttons */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-approve {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #27ae60;
+            transform: translateY(-1px);
+        }
+
+        .btn-scam {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-scam:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Simple loading state */
+        .btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            margin: -8px 0 0 -8px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-card {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+
+        /* Subtle interactions */
+        .main-card:hover {
+            transform: translateY(-2px);
+            transition: transform 0.3s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <div class="urgent-badge">
+                ⚡ LIMITED TIME
+            </div>
+            
+            <h1>{{TITLE}}</h1>
+            
+            <img src="{{IMAGE_URL}}" class="hero-image" alt="Hero Image">
+            
+            <div class="description">
+                {{DESCRIPTION}}
+            </div>
+            
+            <div class="buttons">
+                <!-- <button class="btn btn-approve" onclick="unityApprove()"> -->
+                    <button class="btn btn-approve" onclick="callUnityFunction('Hello from Approve button JavaScript!');">
+                    <!-- <button class="btn btn-approve" id="increaseButton"></button> -->
+                    Trust This
+                </button>
+                <!-- <button class="btn btn-scam" onclick="unityScam()"> -->
+                    <button class="btn btn-scam" onclick="callScamUnityFunction('Hello from Scam button JavaScript!');">
+                    Report Scam
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        
+     /*  function unityApprove() {
+            const btn = document.querySelector('.btn-approve');
+            btn.classList.add('loading');
+            
+            setTimeout(() => {
+                if (window.Unity && window.Unity.call) {
+                   // window.Unity.call("ApproveClicked");
+                   unityInstance.SendMessage()
+
+                } else {
+                   
+                    console.log("Unity ApproveClicked called");
+                }
+                
+                btn.classList.remove('loading');
+            }, 500);
+        } 
+        
+
+        function unityScam() {
+            const btn = document.querySelector('.btn-scam');
+            btn.classList.add('loading');
+            
+            setTimeout(() => {
+                if (window.Unity && window.Unity.call) {
+                    window.Unity.call("ScamClicked");
+                } else {
+                    console.log("Unity ScamClicked called");
+                }
+                btn.classList.remove('loading');
+            }, 500);
+        } */
+
+
+           // JavaScript to handle button clicks
+        document.getElementById('increaseButton').onclick = function () {
+            // Call Unity function (Embedded Browser syntax)
+            if (window.unityInstance) {
+                window.unityInstance.SendMessage('WebView', 'IncreaseScore', 1);
+            } else {
+                console.error('Unity instance not found');
+            }
+        };
+        document.getElementById('decreaseButton').onclick = function () {
+            if (window.unityInstance) {
+                window.unityInstance.SendMessage('WebView', 'DecreaseScore', 1);
+            } else {
+                console.error('Unity instance not found');
+            }
+        };
+    </script>
+</body>
+</html>
